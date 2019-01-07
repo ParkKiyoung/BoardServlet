@@ -50,6 +50,7 @@ public class WriteAction extends HttpServlet {
 		String name = multi.getParameter("BOARD_NAME");
 		String pass = multi.getParameter("BOARD_PASS");
 		String subject = multi.getParameter("BOARD_SUBJECT");
+		String originFileName = multi.getOriginalFileName("BOARD_FILE");
 		
 		BoardBean bb = new BoardBean();
 		bb.setBOARD_CONTENT(content);
@@ -61,7 +62,7 @@ public class WriteAction extends HttpServlet {
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		dao.BoardInsert(bb);
-		response.sendRedirect("boardList.jsp");
+		response.sendRedirect("list.bo");
 		
 	}
 
