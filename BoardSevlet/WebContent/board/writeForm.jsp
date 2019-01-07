@@ -6,20 +6,20 @@
 <meta charset="UTF-8">
 <script>
 function submitBtn(){
-	if(frm.BOARD_NAME.val==""){
+	if(frm.BOARD_NAME.value==""){
 		alert("이름을 입력해주세요");
 		return false;
 	}
-	if(frm.BOARD_PASS.val==""){
-		alert("이름을 입력해주세요");
+	if(frm.BOARD_PASS.value==""){
+		alert("비밀번호를 입력해주세요");
 		return false;
 	}
-	if(frm.BOARD_SUBJECT.val==""){
-		alert("이름을 입력해주세요");
+	if(frm.BOARD_SUBJECT.value==""){
+		alert("제목을 입력해주세요");
 		return false;
 	}
-	if(frm.BOARD_CONTENT.val==""){
-		alert("이름을 입력해주세요");
+	if(frm.BOARD_CONTENT.value==""){
+		alert("내용을 입력해주세요");
 		return false;
 	}
 	frm.submit();
@@ -66,8 +66,6 @@ function submitBtn(){
 			</td>
 			</tr>
 		</table>
-
 	</form>
-
 </body>
 </html>
