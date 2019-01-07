@@ -27,7 +27,7 @@ public class BoardDAO {
 		return ds.getConnection();
 	}
 
-	public void BoardInsert(BoardBean bb) {
+	public void BoardInsert(BoardBean bb) {//글작성
 		Connection con = null;
 		PreparedStatement ps = null;
 		
@@ -63,7 +63,7 @@ public class BoardDAO {
 		
 	}
 
-	public ArrayList<BoardBean> boardList() {
+	public ArrayList<BoardBean> boardList() {//리스트 보기
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
@@ -106,7 +106,7 @@ public class BoardDAO {
 		
 	}
 
-	public BoardBean BoardView(int num) {
+	public BoardBean BoardView(int num, int i) {//글 상세 보기+조회수 증가
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
@@ -115,8 +115,10 @@ public class BoardDAO {
 		try {
 			con = getConnection();
 			st = con.createStatement();
+			if(i==1) {
 			sql = "update board set board_readcount = board_readcount+1 where board_num = "+num;
 			st.executeUpdate(sql);
+			}
 			sql = "select * from board where BOARD_NUM = "+num;
 			rs = st.executeQuery(sql);
 			while(rs.next()) {
@@ -131,6 +133,7 @@ public class BoardDAO {
 				bb.setBOARD_RE_REF(rs.getInt("re_ref"));
 				bb.setBOARD_READCOUNT(rs.getInt("board_readcount"));
 				bb.setBOARD_SUBJECT(rs.getString("board_subject"));
+				bb.setBOARD_PASS(rs.getString("board_pass"));
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -139,4 +142,77 @@ public class BoardDAO {
 		}
 		return bb;
 	}
+
+	public int passCheck(int num, String pass) {//수정, 삭제용 비번 확인
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		try {
+			con = getConnection();
+			String sql = "select * from board where board_num = "+num;
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {
+				if(pass.equals(rs.getString("board_pass"))){
+					return 2;
+					
+				}else {
+					return 1;
+				}
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return 1;
+	}
+
+	public void BoardUpdate(BoardBean bb) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = getConnection();
+			String sql = "update board set board_name = ?, board_PASS=?,board_subject=?,board_content=?,Board_FILE=? where BOARD_num="+bb.getBOARD_NUM();
+			ps = con.prepareStatement(sql);
+			ps.setString(1, bb.getBOARD_NAME());
+			ps.setString(2, bb.getBOARD_PASS());
+			ps.setString(3, bb.getBOARD_SUBJECT());
+			ps.setString(4, bb.getBOARD_CONTENT());
+			ps.setString(5, bb.getBOARD_FILE());
+			ps.executeQuery();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeCon(con,ps);
+		}
+	}
+
+	public int boardDelete(int num, String pass) {
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try {
+			con = getConnection();
+			sql = "select * from board where BOARD_NUM="+num;
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {
+				if(pass.equals(rs.getString("BOARD_PASS"))) {
+					sql = "delete board where BOARD_num="+num;
+					st.execute(sql);
+					return 2;
+				}
+				return 1;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeCon(con, st, rs);
+		}
+		return 1;
+	}
+	
 }
