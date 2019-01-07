@@ -36,8 +36,11 @@ public class ListAction extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		BoardDAO dao = BoardDAO.getInstance();
 		ArrayList<BoardBean> arr = dao.boardList();
-		
+		String filed = "";
+		String word = "";
+		int cnt = dao.BoardCount(filed,word);
 		request.setAttribute("list", arr);
+		request.setAttribute("cnt", cnt);
 		RequestDispatcher rd = request.getRequestDispatcher("boardList.jsp");
 		rd.forward(request, response);
 		

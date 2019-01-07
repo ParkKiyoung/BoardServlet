@@ -13,7 +13,11 @@
 <title>게시판</title>
 </head>
 <body>
-	<h3 ailgn=center>게시글 보기</h3>
+	<h3 align=center>게시글 보기</h3>
+	<br>
+	<br>
+	<br>
+	<div align = center>총 게시글 수 : ${cnt }</div>
 	<table align=center border solid>
 		<tr>
 			<td>글번호</td>

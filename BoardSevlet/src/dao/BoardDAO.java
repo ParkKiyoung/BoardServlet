@@ -214,5 +214,32 @@ public class BoardDAO {
 		}
 		return 1;
 	}
+
+	public int BoardCount(String filed, String word) {
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		String sql = "";
+		int cnt = 0;
+		
+		try {
+			con = getConnection();
+			if(filed.equals("")||filed==null) {
+				 sql = "select count(*) from board ";
+			}else {
+				 sql = "select count(*) from board where "+filed+" like '%"+word+"%'";	
+			}
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {
+				cnt = rs.getInt("count(*)");
+				return cnt;
+			}
+					
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return cnt;
+	}
 	
 }
