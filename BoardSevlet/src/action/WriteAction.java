@@ -38,7 +38,7 @@ public class WriteAction extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		ServletContext context = request.getServletContext();
-		String uploadPath = context.getRealPath("/file"); //파일 업로드 경로
+		String uploadPath = context.getRealPath("/file"); //파일 업로드 절대경로
 		int size = 10*1024*1024; //파일 사이즈
 		
 		MultipartRequest multi = new MultipartRequest(request, uploadPath,size,"UTF-8",new DefaultFileRenamePolicy());
