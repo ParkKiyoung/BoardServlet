@@ -34,9 +34,10 @@ public class ViewAction extends HttpServlet {
 
 		request.setCharacterEncoding("utf-8");
 		int num = Integer.parseInt(request.getParameter("BOARD_NUM"));
+		int i = 1;
 		
 		BoardDAO dao = BoardDAO.getInstance();
-		BoardBean bb = dao.BoardView(num);
+		BoardBean bb = dao.BoardView(num,i);
 		
 		request.setAttribute("bb", bb);
 		RequestDispatcher rd  = request.getRequestDispatcher("boardView.jsp");
