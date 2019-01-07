@@ -4,15 +4,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script>
+function updateBtn(num){
+	location.href = "passCheck.jsp?BOARD_NUM="+num+"&checkNum=1"//1은 수정
+}
+function deleteBtn(num){
+	location.href = "passCheck.jsp?BOARD_NUM="+num+"&checkNum=2"//2는 삭제
+}
+</script>
 <title>글 보기</title>
 </head>
 <body>
 	<table border solid align=center>
 		<tr>
 			<td>작성자</td>
-			<td>${bb.BOARD_NUM }<input type=hidden id=BOARD_PASS
-				name=BOARD_PASS value="${bb.BOARD_PASS}">
-			</td>
+			<td>${bb.BOARD_NUM }</td>
 			<td>조회수</td>
 			<td>${bb.BOARD_READCOUNT }</td>
 
@@ -37,6 +43,8 @@
 	</table>
 	<div align=center>
 		<input type=button value="목록으로" onclick="location.href='list.bo'">
+		<input type=button value="수정" onclick="updateBtn(${bb.BOARD_NUM})">
+		<input type=button value="삭제" onclick="deleteBtn(${bb.BOARD_NUM})">
 	</div>
 
 </body>
