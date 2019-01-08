@@ -6,11 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<%
+<%-- <%
 	int num = Integer.parseInt(request.getParameter("BOARD_NUM"));
 	int checkNum = Integer.parseInt(request.getParameter("checkNum"));
 	//1번이면 수정, 2번이면 삭제로 연결 
-%>
+%> --%>
 <c:if test="${a==1 }">
 	<script>
 		alert("비밀번호 불일치")
@@ -39,17 +39,16 @@
 			<tr>
 				<td>비밀번호 입력</td>
 				<td><input type=password id=pass name=pass></td>
-				<input type=hidden id=num name=num value="<%=num%>">
+				<input type=hidden id=num name=num value="${param.BOARD_NUM}">
 			</tr>
 			<tr>
-			<%if(checkNum==1){
-				%>
-				<th colspan=2 align=center><input type=button value="확인" onclick="updateBtn()">
-			<%}else if(checkNum==2){
-				%>
-				<th colspan=2 align=center><input type=button value="삭제" onclick="deleteBtn(<%=num%>)">
-			<% }%>
-				 <input type=button value="뒤로가기"	onclick="location.href='boardView?BOARD_NUM=<%=num%>'"></th>
+			<c:if test="${param.checkNum==1}">
+			<th colspan=2 align=center><input type=button value="확인" onclick="updateBtn()">
+			</c:if>
+			<c:if test="${param.checkNum==2}">
+			<th colspan=2 align=center><input type=button value="삭제" onclick="deleteBtn(${param.BOARD_NUM})">
+			</c:if>
+			<input type=button value="뒤로가기"	onclick="location.href='boardView?BOARD_NUM=${param.BOARD_NUM}'"></th>
 			</tr>
 		</table>
 
