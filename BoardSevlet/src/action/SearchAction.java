@@ -42,7 +42,7 @@ public class SearchAction extends HttpServlet {
 		int cnt = dao.BoardCount(field, word);
 		
 		int currentPage = Integer.parseInt(pageNum);
-		int pageSize = 5;
+		int pageSize = 10;
 		int startRow = (currentPage-1)*pageSize+1;
 		int endRow = (currentPage*pageSize);
 		
