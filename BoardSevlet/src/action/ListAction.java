@@ -35,13 +35,37 @@ public class ListAction extends HttpServlet {
 		
 		request.setCharacterEncoding("utf-8");
 		BoardDAO dao = BoardDAO.getInstance();
-		ArrayList<BoardBean> arr = dao.boardList();
-		String filed = "";
+		
+		String filed = "";//일반 리스트 이기 때문에 검색값은 없음
 		String word = "";
-		int cnt = dao.BoardCount(filed,word);
+		
+		String pageNum = request.getParameter("pageNum")==null?"1":request.getParameter("pageNum");
+		
+		int currentPage = Integer.parseInt(pageNum);
+		int pageSize = 5;
+		int startRow = (currentPage-1)*pageSize+1;
+		int endRow = (currentPage*pageSize);
+		
+		int cnt = dao.BoardCount(filed,word); //게시글 수
+		
+		int totPage = cnt/pageSize+(cnt%pageSize==0?0:1);
+		int blockPage = 3;
+		int startPage = ((currentPage-1)/blockPage)*blockPage+1;
+		int endPage = startPage+blockPage-1;
+		
+		if(endPage>totPage)endPage=totPage;
+		request.setAttribute("totPage", totPage);
+		request.setAttribute("startPage", startPage);
+		request.setAttribute("endPage", endPage);
+		request.setAttribute("currentPage", currentPage);
+		request.setAttribute("blockPage",blockPage);
+		
+		ArrayList<BoardBean> arr = dao.boardList(startRow,endRow);
+		
+		
 		request.setAttribute("list", arr);
 		request.setAttribute("cnt", cnt);
-		RequestDispatcher rd = request.getRequestDispatcher("boardList.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("nomalList.jsp");
 		rd.forward(request, response);
 		
 
