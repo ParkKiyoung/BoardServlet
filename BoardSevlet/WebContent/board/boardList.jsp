@@ -5,11 +5,31 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
+$(document).ready(function(){
+	getNomalList(1); //노말 리스트 출력
+	
+	$("#searchBtn").click(function(){
+		getSearchList(1,$("#field").val(),$("#word").val());
+	});//검색 리스트 출력
+})
 	function boardview(num) {
 		location.href = "boardView?BOARD_NUM=" + num;
 	}
+	function getNomalList(pageNum){//일반 리스트
+		$("#listResult").load("list.bo",{"pageNum":pageNum},function(data){
+			$("#listResult").html(data);
+		});
+	};
+	function getSearchList(pageNum,field,word){
+		$("#listResult").load("search.bo",{"pageNum":pageNum,"field":field,"word":word},function(data){
+			$("#listResult").html(data);
+		});
+	}
+	
 </script>
+
 <title>게시판</title>
 </head>
 <body>
@@ -17,33 +37,18 @@
 	<br>
 	<br>
 	<br>
-	<div align = center>총 게시글 수 : ${cnt }</div>
-	<table align=center border solid>
-		<tr>
-			<td>글번호</td>
-			<td>글제목</td>
-			<td>작성자</td>
-			<td>작성일자</td>
-			<td>조회수</td>
-			<td>첨부파일</td>
-		</tr>
-		<c:forEach items="${list}" var="i">
-			<tr>
-				<td>${i.BOARD_NUM }</td>
-				<td><a href="javascript:boardview(${i.BOARD_NUM})">${i.BOARD_SUBJECT }</td>
-				<td>${i.BOARD_NAME }</td>
-				<td>${i.BOARD_DATE }</td>
-				<td>${i.BOARD_READCOUNT }</td>
-				<c:if test="${i.BOARD_FILE!=''}">
-					<td>O</td>
-				</c:if>
-				<c:if test="${i.BOARD_FILE==''}">
-					<td>X</td>
-				</c:if>
-			</tr>
-		</c:forEach>
-	</table>
-	<div align = center><input type = button value = "글작성" onclick = "location.href='writeForm.jsp'"></div>
+	<div id = listResult>
+	<!-- 리스트 출력부분 -->
+	</div>
+	<div align=center>
+		<input type=button value="글작성" onclick="location.href='writeForm.jsp'">
+		<select id=field name=field>
+			<option value = "BOARD_SUBJECT">제목</option>
+			<option value = "BOARD_NAME">작성자</option>
+			<option value = "BOARD_DATE">작성일</option>
+		</select> 
+		<input type=text id=word name=word> <input type=button	id=searchBtn value = "검색">
+	</div>
 
 </body>
 </html>
