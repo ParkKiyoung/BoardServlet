@@ -11,6 +11,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import vo.BoardBean;
+import vo.CommentBean;
 
 public class BoardDAO {
 	private static BoardDAO instance = new BoardDAO();
@@ -331,6 +332,55 @@ public class BoardDAO {
 			e.printStackTrace();
 		}finally {
 			closeCon(con,ps,rs);
+		}
+		return arr;
+	}
+
+	public void commentInsert(CommentBean cb) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		try {
+			con=getConnection();
+			String sql = "insert into board_comment values(comment_seq.nextval,?,?,?,sysdate,?)";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, cb.getC_name());
+			ps.setString(2, cb.getC_pass());
+			ps.setString(3, cb.getC_msg());
+			ps.setInt(4, cb.getB_num());
+			ps.executeQuery();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeCon(con, ps);
+			
+		}
+		
+	}
+
+	public ArrayList<CommentBean> commentView(int num) {
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		ArrayList<CommentBean> arr = new ArrayList<>();
+		try {
+			con = getConnection();
+			String sql = "select * from board_comment where b_num = "+num;
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			while(rs.next()) {
+				CommentBean cb = new CommentBean();
+				cb.setC_num(rs.getInt("c_num"));
+				cb.setC_date(rs.getString("c_date"));
+				cb.setC_msg(rs.getString("c_msg"));
+				cb.setC_name(rs.getString("c_name"));
+				cb.setC_pass(rs.getString("c_pass"));
+				arr.add(cb);
+			}
+					
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeCon(con, st, rs);
 		}
 		return arr;
 	}
