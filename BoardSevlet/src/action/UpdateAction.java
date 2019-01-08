@@ -71,7 +71,13 @@ public class UpdateAction extends HttpServlet {
 		
 		//multi가 request를 받아서 다형으로 하기 때문에 파라미터값을 받을때 multi를 사용한다.
 		
-		String filename = multi.getFilesystemName("BOARD_FILE");
+		String filename ="";
+		if(multi.getFilesystemName("BOARD_FILE")==null) {
+			filename = multi.getParameter("uploadedFile");
+		}else {
+			filename = multi.getFilesystemName("BOARD_FILE");
+		}
+		
 		String content = multi.getParameter("BOARD_CONTENT");
 		String name = multi.getParameter("BOARD_NAME");
 		String pass = multi.getParameter("BOARD_PASS");
