@@ -18,7 +18,7 @@ function deleteBtn(num){
 	<table border solid align=center>
 		<tr>
 			<td>작성자</td>
-			<td>${bb.BOARD_NUM }</td>
+			<td>${bb.BOARD_NAME }</td>
 			<td>조회수</td>
 			<td>${bb.BOARD_READCOUNT }</td>
 
@@ -45,7 +45,7 @@ function deleteBtn(num){
 		<input type=button value="목록으로" onclick="location.href='boardList.jsp'">
 		<input type=button value="수정" onclick="updateBtn(${bb.BOARD_NUM})">
 		<input type=button value="삭제" onclick="deleteBtn(${bb.BOARD_NUM})">
-		<input type=button value="답글" onclick="updateBtn(${bb.BOARD_NUM})">
+		<input type=button value="답글" onclick="location.href='replyForm.jsp?BOARD_NUM=${bb.BOARD_NUM}&BOARD_RE_LEV=${bb.BOARD_RE_LEV}&BOARD_RE_REF=${bb.BOARD_RE_REF}&BOARD_RE_STEP=${bb.BOARD_RE_STEP}'">
 	</div>
 
 </body>
