@@ -14,7 +14,16 @@ public class BoardBean {
 	private int BOARD_RE_SEQ;
 	private int BOARD_READCOUNT;
 	private Date BOARD_DATE;
+	private int BOARD_RE_STEP;
 	
+	
+	
+	public int getBOARD_RE_STEP() {
+		return BOARD_RE_STEP;
+	}
+	public void setBOARD_RE_STEP(int bOARD_RE_STEP) {
+		BOARD_RE_STEP = bOARD_RE_STEP;
+	}
 	public int getBOARD_NUM() {
 		return BOARD_NUM;
 	}
