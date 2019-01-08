@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,8 +55,16 @@
 			</tr>
 			<tr>
 				<td>파일첨부</td>
-				<td colspan=3><input type=file id=BOARD_FILE name=BOARD_FILE></td>
+				<td colspan=3><input type=file id=BOARD_FILE name=BOARD_FILE>
 				<!-- 보안상의 이유로 input type file 에서는 value값을 넣을 수 없다. -->
+				
+				<c:if test="${!empty bb.BOARD_FILE}">
+				이미 첨부된 파일 : ${bb.BOARD_FILE}
+				<input type = hidden id = uploadedFile name="uploadedFile" value ="${bb.BOARD_FILE}" >
+				</c:if>
+				
+				</td>
+				
 			</tr>
 			<tr>
 				<td colspan=4><input type=button value="글수정"
