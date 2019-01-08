@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <div align=center>총 게시글 수 : ${cnt }</div>
 <table align=center border solid>
 	<tr>
@@ -11,10 +12,19 @@
 		<td>조회수</td>
 		<td>첨부파일</td>
 	</tr>
+	<c:set var="number" value="${cnt}">	</c:set><!--게시글 번호 -->	
 	<c:forEach items="${list}" var="i">
 		<tr>
-			<td>${i.BOARD_NUM }</td>
-			<td><a href="javascript:boardview(${i.BOARD_NUM})">${i.BOARD_SUBJECT }</td>
+			<td>
+			<c:out value="${number}"></c:out>
+			<c:set var="number" value ="${number-1}"></c:set>
+			</td>
+			<td>
+			<c:if test="${i.BOARD_RE_LEV>0}">
+			<img src = "./level.gif" width="${i.BOARD_RE_LEV*5}" height = "16">
+			<img src = "./re.gif">
+			</c:if>
+			<a href="javascript:boardview(${i.BOARD_NUM})">${i.BOARD_SUBJECT }</td>
 			<td>${i.BOARD_NAME }</td>
 			<td>${i.BOARD_DATE }</td>
 			<td>${i.BOARD_READCOUNT }</td>
