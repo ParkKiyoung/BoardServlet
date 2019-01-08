@@ -1,6 +1,7 @@
 package action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import dao.BoardDAO;
 import vo.BoardBean;
+import vo.CommentBean;
 
 /**
  * Servlet implementation class ViewAction
@@ -38,8 +40,10 @@ public class ViewAction extends HttpServlet {
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		BoardBean bb = dao.BoardView(num,i);
+		ArrayList<CommentBean> arr = dao.commentView(num);
 		
 		request.setAttribute("bb", bb);
+		request.setAttribute("arr", arr);
 		RequestDispatcher rd  = request.getRequestDispatcher("boardView.jsp");
 		rd.forward(request, response);
 		

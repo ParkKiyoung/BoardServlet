@@ -1,10 +1,28 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
+function commentBtn(){//댓글 입력 메서드
+	if(commentFrm.name.value==""){
+		alert("이름을 입력하세요");
+		return false;
+	}
+	if(commentFrm.pass.value==""){
+		alert("비밀번호를 입력하세요");
+		return false;
+	}
+	if(commentFrm.msg.value==""){
+		alert("내용을 입력하세요");
+		return false;
+	}
+	commentFrm.submit();
+}
+
 function updateBtn(num){
 	location.href = "passCheck.jsp?BOARD_NUM="+num+"&checkNum=1"//1은 수정
 }
@@ -47,6 +65,34 @@ function deleteBtn(num){
 		<input type=button value="삭제" onclick="deleteBtn(${bb.BOARD_NUM})">
 		<input type=button value="답글" onclick="location.href='replyForm.jsp?BOARD_NUM=${bb.BOARD_NUM}&BOARD_RE_LEV=${bb.BOARD_RE_LEV}&BOARD_RE_REF=${bb.BOARD_RE_REF}&BOARD_RE_STEP=${bb.BOARD_RE_STEP}'">
 	</div>
+	<br>
+	
+	<div align = center id = commentResult><!-- 댓글 출력 부분 -->
+	댓글란
+	<hr>
+	
+	<!-- 댓글 입력부분 -->
+	<table>
+	<c:forEach items="${arr }" var ="i">
+	<tr>
+	<td>이름 : ${i.c_name}</td>
+	<td>댓글 : ${i.c_msg}</td>
+	<td>작성시간 : ${i.c_date}</td>
+	<td><input type = button value ="수정" onclick = ><input type = button value = "삭제"></td>
+	</tr>
+	</c:forEach>
+	</table>
+	</div>
+	<form id = commentFrm action = commentAction>
+	<div align = center >
+	<input type = hidden id = b_num name = b_num value = "${bb.BOARD_NUM }">
+	이름 : <input type = text id = name  name = name >
+	비밀번호 : <input type = password id = pass name = pass>
+	<br>
+	<textarea id = msg name = msg rows=5 cols = 80></textarea>
+	<input type = button  value = "댓글입력" onclick="commentBtn()">
+	</div>
+	</form>
 
 </body>
 </html>
