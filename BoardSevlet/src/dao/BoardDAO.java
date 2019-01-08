@@ -63,16 +63,19 @@ public class BoardDAO {
 		
 	}
 
-	public ArrayList<BoardBean> boardList() {//리스트 보기
+	public ArrayList<BoardBean> boardList(int startRow, int endRow) {//리스트 보기
 		Connection con = null;
-		Statement st = null;
+		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<BoardBean> arr = new ArrayList<>();
 		try {
 			con = getConnection();
-			String sql = "select * from board";
-			st = con.createStatement();
-			rs = st.executeQuery(sql);
+			String sql = "select * from(select rownum rn, aa.* from (select * from board order by board_num desc)aa) "
+					+ "where rn >= ? and rn <=?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, startRow);
+			ps.setInt(2, endRow);
+			rs=ps.executeQuery();
 			while(rs.next()) {
 				BoardBean bb = new BoardBean();
 				bb.setBOARD_NUM(rs.getInt("board_num"));
@@ -90,7 +93,7 @@ public class BoardDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
-			closeCon(con, st,rs);
+			closeCon(con,ps,rs);
 		}
 		return arr;
 	}
@@ -99,6 +102,15 @@ public class BoardDAO {
 		try {
 			if(con!=null)con.close();
 			if(st!=null)st.close();
+			if(rs!=null)rs.close();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}	private void closeCon(Connection con, PreparedStatement ps, ResultSet rs) {
+		try {
+			if(con!=null)con.close();
+			if(ps!=null)ps.close();
 			if(rs!=null)rs.close();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -240,6 +252,43 @@ public class BoardDAO {
 			e.printStackTrace();
 		}
 		return cnt;
+	}
+
+	public ArrayList<BoardBean> boardSearch(String field, String word, int startRow, int endRow) { //검색 배열
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<BoardBean> arr = new ArrayList<>();
+		try {
+			con = getConnection();
+			String sql = "select * from(select rownum rn, aa.* from "
+					+ "(select * from board where "+field+" like '%"+word+"%'"
+					+ " order by board_num desc)aa) "
+					+ "where rn >= ? and rn <=?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, startRow);
+			ps.setInt(2, endRow);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				BoardBean bb = new BoardBean();
+				bb.setBOARD_NUM(rs.getInt("board_num"));
+				bb.setBOARD_CONTENT(rs.getString("board_content"));
+				bb.setBOARD_DATE(rs.getDate("board_date"));
+				bb.setBOARD_FILE(rs.getString("board_file"));
+				bb.setBOARD_NAME(rs.getString("board_name"));
+				bb.setBOARD_PASS(rs.getString("board_pass"));
+				bb.setBOARD_RE_LEV(rs.getInt("re_lev"));
+				bb.setBOARD_RE_REF(rs.getInt("re_ref"));
+				bb.setBOARD_READCOUNT(rs.getInt("board_readcount"));
+				bb.setBOARD_SUBJECT(rs.getString("board_subject"));
+				arr.add(bb);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeCon(con,ps,rs);
+		}
+		return arr;
 	}
 	
 }
