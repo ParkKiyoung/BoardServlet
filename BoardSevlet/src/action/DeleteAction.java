@@ -43,7 +43,7 @@ public class DeleteAction extends HttpServlet {
 			rd.forward(request, response);
 			
 		}else if(a==2){//비밀번호 일치
-			response.sendRedirect("list.bo");	
+			response.sendRedirect("boardList.jsp");	
 		}
 	}
 

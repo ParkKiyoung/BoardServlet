@@ -62,7 +62,7 @@ public class WriteAction extends HttpServlet {
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		dao.BoardInsert(bb);
-		response.sendRedirect("list.bo");
+		response.sendRedirect("boardList.jsp");
 		
 	}
 

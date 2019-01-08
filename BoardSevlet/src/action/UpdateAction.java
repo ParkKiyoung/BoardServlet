@@ -90,7 +90,7 @@ public class UpdateAction extends HttpServlet {
 		
 		BoardDAO dao = BoardDAO.getInstance();
 		dao.BoardUpdate(bb);
-		response.sendRedirect("list.bo");
+		response.sendRedirect("boardList.jsp");
 	}
 
 }
