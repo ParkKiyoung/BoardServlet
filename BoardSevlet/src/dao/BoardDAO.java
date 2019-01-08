@@ -30,7 +30,6 @@ public class BoardDAO {
 	public void BoardInsert(BoardBean bb) {//글작성
 		Connection con = null;
 		PreparedStatement ps = null;
-		
 		try {
 			con = getConnection();
 			String sql = "insert into board values(board_seq.nextval,?,?,?,?,?,board_seq.nextval,?,?,?,sysdate)";
@@ -52,6 +51,46 @@ public class BoardDAO {
 		}
 		
 	}
+	public void ReplyInsert(BoardBean bb) {//답글 작성
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		String sql = "";
+		try {
+			con = getConnection();
+			int ref = bb.getBOARD_RE_REF();
+			int re_step = bb.getBOARD_RE_STEP();
+			int re_lev = bb.getBOARD_RE_LEV();
+			sql = "update board set re_step=re_step+1 where re_ref=? and re_step>?";
+			ps =con.prepareStatement(sql);
+			ps.setInt(1, ref);
+			ps.setInt(2, re_step);
+			ps.executeUpdate();
+			
+			re_step = re_step+1;
+			re_lev = re_lev+1;
+			
+			sql = "insert into board values(board_seq.nextval,?,?,?,?,?,?,?,?,?,sysdate)";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, bb.getBOARD_NAME());
+			ps.setString(2, bb.getBOARD_PASS());
+			ps.setString(3, bb.getBOARD_SUBJECT());
+			ps.setString(4, bb.getBOARD_CONTENT());
+			ps.setString(5, bb.getBOARD_FILE());
+			ps.setInt(6, ref);
+			ps.setInt(7, re_lev);
+			ps.setInt(8, re_step);
+			ps.setInt(9, 0);
+			ps.executeQuery();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeCon(con, ps, rs);
+		}
+		
+	}
+	
 
 	private void closeCon(Connection con, PreparedStatement ps) {
 		try {
@@ -70,7 +109,7 @@ public class BoardDAO {
 		ArrayList<BoardBean> arr = new ArrayList<>();
 		try {
 			con = getConnection();
-			String sql = "select * from(select rownum rn, aa.* from (select * from board order by board_num desc)aa) "
+			String sql = "select * from(select rownum rn, aa.* from (select * from board order by re_ref desc, re_step)aa) "
 					+ "where rn >= ? and rn <=?";
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, startRow);
@@ -88,6 +127,8 @@ public class BoardDAO {
 				bb.setBOARD_RE_REF(rs.getInt("re_ref"));
 				bb.setBOARD_READCOUNT(rs.getInt("board_readcount"));
 				bb.setBOARD_SUBJECT(rs.getString("board_subject"));
+				bb.setBOARD_RE_STEP(rs.getInt("re_step"));
+				bb.setBOARD_PASS(rs.getString("board_pass"));
 				arr.add(bb);
 			}
 		}catch(Exception e) {
@@ -145,6 +186,7 @@ public class BoardDAO {
 				bb.setBOARD_RE_REF(rs.getInt("re_ref"));
 				bb.setBOARD_READCOUNT(rs.getInt("board_readcount"));
 				bb.setBOARD_SUBJECT(rs.getString("board_subject"));
+				bb.setBOARD_RE_STEP(rs.getInt("re_step"));
 				bb.setBOARD_PASS(rs.getString("board_pass"));
 			}
 		}catch(Exception e) {
@@ -281,6 +323,8 @@ public class BoardDAO {
 				bb.setBOARD_RE_REF(rs.getInt("re_ref"));
 				bb.setBOARD_READCOUNT(rs.getInt("board_readcount"));
 				bb.setBOARD_SUBJECT(rs.getString("board_subject"));
+				bb.setBOARD_RE_STEP(rs.getInt("re_step"));
+				bb.setBOARD_PASS(rs.getString("board_pass"));
 				arr.add(bb);
 			}
 		}catch(Exception e) {
@@ -290,5 +334,6 @@ public class BoardDAO {
 		}
 		return arr;
 	}
-	
+
+
 }
