@@ -38,13 +38,14 @@ function deleteBtn(num){
 		</tr>
 		<tr>
 			<td>파일첨부</td>
-			<td colspan=3><a href="#">${bb.BOARD_FILE }</a></td>
+			<td colspan=3><a href="file_down.jsp?file_name=${bb.BOARD_FILE}">${bb.BOARD_FILE }</a></td>
 		</tr>
 	</table>
 	<div align=center>
-		<input type=button value="목록으로" onclick="location.href='list.bo'">
+		<input type=button value="목록으로" onclick="location.href='boardList.jsp'">
 		<input type=button value="수정" onclick="updateBtn(${bb.BOARD_NUM})">
 		<input type=button value="삭제" onclick="deleteBtn(${bb.BOARD_NUM})">
+		<input type=button value="답글" onclick="updateBtn(${bb.BOARD_NUM})">
 	</div>
 
 </body>
