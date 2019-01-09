@@ -15,9 +15,17 @@ public class BoardBean {
 	private int BOARD_READCOUNT;
 	private Date BOARD_DATE;
 	private int BOARD_RE_STEP;
+	private int CO_CNT;//´ñ±Û °¹¼ö
 	
 	
 	
+	
+	public int getCO_CNT() {
+		return CO_CNT;
+	}
+	public void setCO_CNT(int cO_CNT) {
+		CO_CNT = cO_CNT;
+	}
 	public int getBOARD_RE_STEP() {
 		return BOARD_RE_STEP;
 	}
