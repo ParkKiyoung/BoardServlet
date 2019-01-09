@@ -42,13 +42,13 @@
 				<input type=hidden id=num name=num value="${param.BOARD_NUM}">
 			</tr>
 			<tr>
-			<c:if test="${param.checkNum==1}">
+			<c:if test="${param.checkNum==1}"><!-- 수정 -->
 			<th colspan=2 align=center><input type=button value="확인" onclick="updateBtn()">
 			</c:if>
-			<c:if test="${param.checkNum==2}">
+			<c:if test="${param.checkNum==2}"><!-- 삭제 -->
 			<th colspan=2 align=center><input type=button value="삭제" onclick="deleteBtn(${param.BOARD_NUM})">
 			</c:if>
-			<input type=button value="뒤로가기"	onclick="location.href='boardView?BOARD_NUM=${param.BOARD_NUM}'"></th>
+			<input type=button value="뒤로가기" onclick="location.href='boardView?BOARD_NUM=${param.BOARD_NUM}'"></th>
 			</tr>
 		</table>
 
