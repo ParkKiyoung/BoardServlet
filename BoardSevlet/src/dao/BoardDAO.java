@@ -245,7 +245,7 @@ public class BoardDAO {
 		}
 	}
 
-	public int boardDelete(int num, String pass) {
+	public int boardDelete(int num, String pass) {//게시글 삭제
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
@@ -272,7 +272,7 @@ public class BoardDAO {
 		return 1;
 	}
 
-	public int BoardCount(String field, String word) {
+	public int BoardCount(String field, String word) {//게시물 수
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
@@ -377,6 +377,7 @@ public class BoardDAO {
 				cb.setC_msg(rs.getString("c_msg"));
 				cb.setC_name(rs.getString("c_name"));
 				cb.setC_pass(rs.getString("c_pass"));
+				cb.setB_num(rs.getInt("b_num"));
 				arr.add(cb);
 			}
 					
@@ -408,6 +409,33 @@ public class BoardDAO {
 			closeCon(con, st, rs);
 		}
 		return cnt;
+	}
+
+	public int commentDelete(int c_num, String pass) {
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		String sql = "";
+		
+		try {
+			con = getConnection();
+			sql = "select * from board_comment where c_num="+c_num;
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {
+				if(pass.equals(rs.getString("c_pass"))) {
+					sql = "delete board_comment where c_num="+c_num;
+					st.execute(sql);
+					return 2;
+				}
+				return 1;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeCon(con, st, rs);
+		}
+		return 1;
 	}
 
 

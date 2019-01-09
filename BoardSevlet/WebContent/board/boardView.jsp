@@ -78,12 +78,13 @@ function deleteBtn(num){
 	<td>이름 : ${i.c_name}</td>
 	<td>댓글 : ${i.c_msg}</td>
 	<td>작성시간 : ${i.c_date}</td>
-	<td><input type = button value ="수정" onclick = ><input type = button value = "삭제"></td>
+	<td>
+	<input type = button value = "삭제" onclick ="location.href='c_passCheck.jsp?c_num=${i.c_num}&BOARD_NUM=${i.b_num}'"></td>
 	</tr>
 	</c:forEach>
 	</table>
 	</div>
-	<form id = commentFrm action = commentAction>
+	<form id = commentFrm action = commentAction method = "post">
 	<div align = center >
 	<input type = hidden id = b_num name = b_num value = "${bb.BOARD_NUM }">
 	이름 : <input type = text id = name  name = name >
