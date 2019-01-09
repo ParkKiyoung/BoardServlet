@@ -16,12 +16,16 @@
 		<tr>
 			<td><c:out value="${number}"></c:out>
 			<c:set var="number" value ="${number-1}"></c:set></td>
-			<td>
+			<td width = 250>
 			<c:if test="${i.BOARD_RE_LEV>0}">
 			<img src = "./level.gif" width="${i.BOARD_RE_LEV*5}" height = "16">
 			<img src = "./re.gif">
 			</c:if>
-			<a href="javascript:boardview(${i.BOARD_NUM})">${i.BOARD_SUBJECT }</td>
+			<a href="javascript:boardview(${i.BOARD_NUM})">${i.BOARD_SUBJECT }</a>
+			<c:if test="${i.CO_CNT!=0}">
+			[${i.CO_CNT}]
+			</c:if>
+			</td>
 			<td>${i.BOARD_NAME }</td>
 			<td>${i.BOARD_DATE }</td>
 			<td>${i.BOARD_READCOUNT }</td>
