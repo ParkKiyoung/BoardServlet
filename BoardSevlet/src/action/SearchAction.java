@@ -59,6 +59,7 @@ public class SearchAction extends HttpServlet {
 		request.setAttribute("blockPage",blockPage);
 		
 		ArrayList<BoardBean> arr = dao.boardSearch(field,word,startRow,endRow);
+		request.setAttribute("cnt", cnt);
 		request.setAttribute("field", field);
 		request.setAttribute("word", word);
 		request.setAttribute("startRow", startRow);
