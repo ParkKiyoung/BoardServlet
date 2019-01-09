@@ -108,6 +108,7 @@ public class BoardDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		ArrayList<BoardBean> arr = new ArrayList<>();
+		
 		try {
 			con = getConnection();
 			String sql = "select * from(select rownum rn, aa.* from (select * from board order by re_ref desc, re_step)aa) "
@@ -130,6 +131,7 @@ public class BoardDAO {
 				bb.setBOARD_SUBJECT(rs.getString("board_subject"));
 				bb.setBOARD_RE_STEP(rs.getInt("re_step"));
 				bb.setBOARD_PASS(rs.getString("board_pass"));
+				bb.setCO_CNT(commentCount(rs.getInt("board_num")));
 				arr.add(bb);
 			}
 		}catch(Exception e) {
@@ -270,7 +272,7 @@ public class BoardDAO {
 		return 1;
 	}
 
-	public int BoardCount(String filed, String word) {
+	public int BoardCount(String field, String word) {
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
@@ -279,10 +281,10 @@ public class BoardDAO {
 		
 		try {
 			con = getConnection();
-			if(filed.equals("")||filed==null) {
+			if(field.equals("")||field==null) {
 				 sql = "select count(*) from board ";
 			}else {
-				 sql = "select count(*) from board where "+filed+" like '%"+word+"%'";	
+				 sql = "select count(*) from board where "+field+" like '%"+word+"%'";	
 			}
 			st = con.createStatement();
 			rs = st.executeQuery(sql);
@@ -326,6 +328,7 @@ public class BoardDAO {
 				bb.setBOARD_SUBJECT(rs.getString("board_subject"));
 				bb.setBOARD_RE_STEP(rs.getInt("re_step"));
 				bb.setBOARD_PASS(rs.getString("board_pass"));
+				bb.setCO_CNT(commentCount(rs.getInt("board_num")));
 				arr.add(bb);
 			}
 		}catch(Exception e) {
@@ -336,7 +339,7 @@ public class BoardDAO {
 		return arr;
 	}
 
-	public void commentInsert(CommentBean cb) {
+	public void commentInsert(CommentBean cb) {//´ñ±Û µî·Ï
 		Connection con = null;
 		PreparedStatement ps = null;
 		try {
@@ -357,7 +360,7 @@ public class BoardDAO {
 		
 	}
 
-	public ArrayList<CommentBean> commentView(int num) {
+	public ArrayList<CommentBean> commentView(int num) {//´ñ±Û ºÒ·¯¿È
 		Connection con = null;
 		Statement st = null;
 		ResultSet rs = null;
@@ -383,6 +386,28 @@ public class BoardDAO {
 			closeCon(con, st, rs);
 		}
 		return arr;
+	}
+	public int commentCount(int bnum) {
+		Connection con = null;
+		Statement st = null;
+		ResultSet rs = null;
+		int cnt = 0;
+		try {
+			con =getConnection();
+			String sql = "select count(*) from board b, board_comment c "
+					+ "where b.board_num=c.b_num and b.board_num ="+bnum;
+			st = con.createStatement();
+			rs = st.executeQuery(sql);
+			if(rs.next()) {
+				cnt = rs.getInt("count(*)");
+				return cnt;
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			closeCon(con, st, rs);
+		}
+		return cnt;
 	}
 
 
