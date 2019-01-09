@@ -11,6 +11,10 @@ $(document).ready(function(){
 	getNomalList(1); //노말 리스트 출력
 	
 	$("#searchBtn").click(function(){
+		if($("#word").val()==""){
+			alert("검색 내용을 입력해주세요");
+			return false;
+		}
 		getSearchList(1,$("#field").val(),$("#word").val());
 	});//검색 리스트 출력
 })
@@ -48,6 +52,8 @@ $(document).ready(function(){
 			<option value = "BOARD_DATE">작성일</option>
 		</select> 
 		<input type=text id=word name=word> <input type=button	id=searchBtn value = "검색">
+		<input type=button	value = "전체보기" onclick = "location.href='boardList.jsp'">
+		
 	</div>
 
 </body>
