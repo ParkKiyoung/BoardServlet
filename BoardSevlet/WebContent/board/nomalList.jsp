@@ -1,25 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<style>
+#tt {
+	text-align:center;
+}
+</style>
 <div align=center>총 게시글 수 : ${cnt }</div>
 <table align=center border solid>
-	<tr>
-		<td>글번호</td>
-		<td>글제목</td>
-		<td>작성자</td>
-		<td>작성일자</td>
-		<td>조회수</td>
-		<td>첨부파일</td>
+	<tr style = "background-color:pink">
+		<th>글번호</th>
+		<th>글제목</th>
+		<th>작성자</th>
+		<th>작성일자</th>
+		<th>조회수</th>
+		<th>첨부파일</th>
 	</tr>
 	<c:set var="number" value="${cnt}">	</c:set><!--게시글 번호 -->	
 	<c:forEach items="${list}" var="i">
 		<tr>
-			<td>
+			<td id = "tt">
 			<c:out value="${number}"></c:out>
 			<c:set var="number" value ="${number-1}"></c:set>
 			</td>
-			<td width = 250>
+			<td width = 250 >
 			<c:if test="${i.BOARD_RE_LEV>0}">
 			<img src = "./level.gif" width="${i.BOARD_RE_LEV*5}" height = "16">
 			<img src = "./re.gif">
@@ -29,14 +33,14 @@
 			[${i.CO_CNT}]
 			</c:if>
 			</td>
-			<td>${i.BOARD_NAME }</td>
-			<td>${i.BOARD_DATE }</td>
-			<td>${i.BOARD_READCOUNT }</td>
+			<td id = "tt">${i.BOARD_NAME }</td>
+			<td id = "tt">${i.BOARD_DATE }</td>
+			<td id = "tt">${i.BOARD_READCOUNT }</td>
 			<c:if test="${i.BOARD_FILE!=''}">
-				<td>O</td>
+				<td id = "tt">O</td>
 			</c:if>
 			<c:if test="${i.BOARD_FILE==''}">
-				<td>X</td>
+				<td id = "tt">X</td>
 			</c:if>
 		</tr>
 	</c:forEach>

@@ -367,7 +367,7 @@ public class BoardDAO {
 		ArrayList<CommentBean> arr = new ArrayList<>();
 		try {
 			con = getConnection();
-			String sql = "select * from board_comment where b_num = "+num;
+			String sql = "select * from board_comment where b_num = "+num+" order by c_date desc";
 			st = con.createStatement();
 			rs = st.executeQuery(sql);
 			while(rs.next()) {

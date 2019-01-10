@@ -41,8 +41,10 @@ public class ViewAction extends HttpServlet {
 		BoardDAO dao = BoardDAO.getInstance();
 		BoardBean bb = dao.BoardView(num,i);
 		ArrayList<CommentBean> arr = dao.commentView(num);
+		int cnt = dao.commentCount(num);
 		
 		request.setAttribute("bb", bb);
+		request.setAttribute("cnt", cnt);
 		request.setAttribute("arr", arr);
 		RequestDispatcher rd  = request.getRequestDispatcher("boardView.jsp");
 		rd.forward(request, response);

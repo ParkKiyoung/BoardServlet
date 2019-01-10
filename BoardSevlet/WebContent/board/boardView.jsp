@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@taglib prefix="c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,39 +60,54 @@ function deleteBtn(num){
 		</tr>
 	</table>
 	<div align=center>
-		<input type=button value="목록으로" onclick="location.href='boardList.jsp'">
-		<input type=button value="수정" onclick="updateBtn(${bb.BOARD_NUM})">
-		<input type=button value="삭제" onclick="deleteBtn(${bb.BOARD_NUM})">
-		<input type=button value="답글" onclick="location.href='replyForm.jsp?BOARD_NUM=${bb.BOARD_NUM}&BOARD_RE_LEV=${bb.BOARD_RE_LEV}&BOARD_RE_REF=${bb.BOARD_RE_REF}&BOARD_RE_STEP=${bb.BOARD_RE_STEP}'">
+		<input type=button value="목록으로"
+			onclick="location.href='boardList.jsp'"> <input type=button
+			value="수정" onclick="updateBtn(${bb.BOARD_NUM})"> <input
+			type=button value="삭제" onclick="deleteBtn(${bb.BOARD_NUM})">
+		<input type=button value="답글"
+			onclick="location.href='replyForm.jsp?BOARD_NUM=${bb.BOARD_NUM}&BOARD_RE_LEV=${bb.BOARD_RE_LEV}&BOARD_RE_REF=${bb.BOARD_RE_REF}&BOARD_RE_STEP=${bb.BOARD_RE_STEP}'">
 	</div>
 	<br>
-	
-	<div align = center id = commentResult><!-- 댓글 출력 부분 -->
-	댓글란
-	<hr>
-	
-	<!-- 댓글 입력부분 -->
-	<table>
-	<c:forEach items="${arr }" var ="i">
-	<tr>
-	<td>이름 : ${i.c_name}</td>
-	<td>댓글 : ${i.c_msg}</td>
-	<td>작성시간 : ${i.c_date}</td>
-	<td>
-	<input type = button value = "삭제" onclick ="location.href='c_passCheck.jsp?c_num=${i.c_num}&BOARD_NUM=${i.b_num}'"></td>
-	</tr>
-	</c:forEach>
-	</table>
+
+	<div align=center id=commentResult>
+		<!-- 댓글 출력 부분 -->
+		<table>
+			<tr>
+				<td id="tt">이전글</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td id="tt">다음글</td>
+				<td></td>
+			</tr>
+		</table>
+
+		댓글란
+		<hr>
+		<!-- 댓글 입력부분 -->
+		<table>
+			<c:set var="number" value="${cnt}"></c:set>
+			<c:forEach items="${arr }" var="i">
+				<tr>
+					<td><c:out value="${number}"></c:out> <c:set var="number"
+							value="${number-1}"></c:set></td>
+					<th>${i.c_name}</th>
+					<td width=300>댓글 : ${i.c_msg}</td>
+					<td>작성시간 : ${i.c_date}</td>
+					<td><input type=button value="삭제"
+						onclick="location.href='c_passCheck.jsp?c_num=${i.c_num}&BOARD_NUM=${i.b_num}'"></td>
+				</tr>
+			</c:forEach>
+		</table>
 	</div>
-	<form id = commentFrm action = commentAction method = "post">
-	<div align = center >
-	<input type = hidden id = b_num name = b_num value = "${bb.BOARD_NUM }">
-	이름 : <input type = text id = name  name = name >
-	비밀번호 : <input type = password id = pass name = pass>
-	<br>
-	<textarea id = msg name = msg rows=5 cols = 80></textarea>
-	<input type = button  value = "댓글입력" onclick="commentBtn()">
-	</div>
+	<form id=commentFrm action=commentAction method="post">
+		<div align=center>
+			<input type=hidden id=b_num name=b_num value="${bb.BOARD_NUM }">
+			이름 : <input type=text id=name name=name> 비밀번호 : <input
+				type=password id=pass name=pass> <br>
+			<textarea id=msg name=msg rows=5 cols=80></textarea>
+			<input type=button value="댓글입력" onclick="commentBtn()">
+		</div>
 	</form>
 
 </body>
